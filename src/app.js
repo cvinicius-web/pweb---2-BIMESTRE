@@ -18,10 +18,12 @@ app.get("/", (req, res) => {
     });
 });
 
+
 app.use("/salas", salasRoutes);
 app.use("/reservas", reservasRoutes);
 app.use("/usuarios", usuariosRoutes);
 app.use("/relatorios", relatoriosRoutes);
+
 
 app.use((req, res) => {
     res.status(404).json({
