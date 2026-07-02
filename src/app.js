@@ -9,12 +9,10 @@ const app = express();
 
 app.use(express.json());
 
-
 app.get("/", (req, res) => {
     res.json({
         project: "Sistema de Reserva de Salas",
-        status: "ok",
-        message: "Servidor no ar. Implemente as rotas descritas no README.",
+        status: "ok"
     });
 });
 
@@ -24,11 +22,8 @@ app.use("/reservas", reservasRoutes);
 app.use("/usuarios", usuariosRoutes);
 app.use("/relatorios", relatoriosRoutes);
 
-
 app.use((req, res) => {
-    res.status(404).json({
-        erro: "Rota não encontrada."
-    });
+    res.status(404).json({ error: "Rota não encontrada." });
 });
 
 module.exports = app;
