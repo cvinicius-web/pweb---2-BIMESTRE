@@ -1,38 +1,26 @@
 const fs = require("fs");
 const path = require("path");
 
-const arquivo = path.join(__dirname, "..", "data", "data.json");
+const caminhoArquivo = path.join(__dirname, "..", "data", "database.json");
 
 function carregar() {
-    if (!fs.existsSync(arquivo)) {
-        const inicial = {
-            salas: [],
-            reservas: [],
-            usuarios: []
-        };
-
-        fs.writeFileSync(arquivo, JSON.stringify(inicial, null, 2));
-        return inicial;
+    try {
+        if (!fs.existsSync(caminhoArquivo)) {
+            return { usuarios: [], salas: [], reservas: [] };
+        }
+        const dados = fs.readFileSync(caminhoArquivo, "utf-8");
+        return dados ? JSON.parse(dados) : { usuarios: [], salas: [], reservas: [] };
+    } catch (error) {
+        return { usuarios: [], salas: [], reservas: [] };
     }
-
-    const conteudo = fs.readFileSync(arquivo, "utf8");
-
-    if (!conteudo.trim()) {
-        return {
-            salas: [],
-            reservas: [],
-            usuarios: []
-        };
-    }
-
-    return JSON.parse(conteudo);
 }
 
 function salvar(dados) {
-    fs.writeFileSync(arquivo, JSON.stringify(dados, null, 2));
+    try {
+        fs.writeFileSync(caminhoArquivo, JSON.stringify(dados, null, 2), "utf-8");
+    } catch (error) {
+        console.error("Erro ao salvar o banco de dados:", error);
+    }
 }
 
-module.exports = {
-    carregar,
-    salvar
-};
+module.exports = { carregar, salvar };
